@@ -25,4 +25,4 @@ Chainventory: Chainsaw Management System using React for DENR-Eastern Samar
 
 ## Important Links:
 
-● Design Specs: https://drive.google.com/drive/u/1/folders/1aCgFII5WSgYYlHNLVuba8OyiksNHa-kI
+● Design Specs: https://github.com/SethAlmazan
