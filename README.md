@@ -4,9 +4,9 @@ Chainventory: Chainsaw Management System using React for DENR-Eastern Samar
 
 | Release Code | Date Released |
 |--------------|--------------|
-| AB.010.001   | 2026-02-26   |
-| AB.010.002   | 2026-mm-dd   |
-| AB.010.003   | 2026-mm-dd   |
+| SI.010.001   | 2026-02-26   |
+| SI.010.002   | 2026-mm-dd   |
+| SI.010.003   | 2026-mm-dd   |
 
 
 ## AB.010.001 Release Notes 
