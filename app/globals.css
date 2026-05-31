@@ -1,26 +1,227 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #eef3f2;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #d7e0df;
+
+  --teal-900: #215f66;
+  --teal-800: #2e7277;
+  --teal-700: #3c8a8d;
+  --teal-600: #52a6a1;
+  --teal-500: #77bdb1;
+  --teal-400: #9ad3c7;
+
+  --yellow-500: #facc15;
+  --yellow-600: #eab308;
+
+  --blue-500: #2563eb;
+  --green-500: #16a34a;
+  --red-500: #ef4444;
+  --slate-700: #334155;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.page-bg {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.7), transparent 30%),
+    linear-gradient(180deg, #f4f7f6 0%, #edf2f1 100%);
+}
+
+.container-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.topbar-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--teal-900) 0%,
+    var(--teal-700) 55%,
+    var(--teal-500) 100%
+  );
+}
+
+.nav-strip {
+  background: linear-gradient(90deg, #1f646a 0%, #2e7478 50%, #4c9c95 100%);
+}
+
+.hero-gradient {
+  background: linear-gradient(90deg, #2a6b71 0%, #43858a 45%, #8cc1b3 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.66);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 10px 30px rgba(24, 39, 75, 0.08),
+    0 2px 10px rgba(24, 39, 75, 0.06);
+}
+
+.soft-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.06),
+    0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.field {
+  @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition;
+}
+
+.field:focus,
+.field:focus-visible {
+  @apply border-teal-500 ring-2 ring-teal-200;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-semibold transition;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-yellow-400 px-5 py-3 font-semibold text-slate-900 transition hover:bg-yellow-300;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.btn-dark {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-800 px-5 py-3 font-semibold text-white transition hover:bg-slate-700;
+}
+
+.btn-teal {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-teal-600 px-5 py-3 font-semibold text-white transition hover:bg-teal-500;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 rounded-2xl border border-white/60 bg-white/15 px-5 py-3 font-semibold text-white transition hover:bg-white/20;
+}
+
+.badge {
+  @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold;
+}
+
+.badge-live {
+  @apply inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/15 px-4 py-2 text-sm font-semibold text-white;
+}
+
+.badge-yellow {
+  @apply inline-flex items-center gap-2 rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-slate-900;
+}
+
+.badge-danger {
+  @apply inline-flex items-center gap-2 rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white;
+}
+
+.table-head {
+  @apply bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-700;
+}
+
+.status-pill {
+  @apply inline-flex rounded-full border px-4 py-1.5 text-sm font-semibold;
+}
+
+.status-active {
+  @apply inline-flex rounded-full border border-green-400 bg-green-50 px-4 py-1.5 text-sm font-semibold text-green-700;
+}
+
+.status-expired {
+  @apply inline-flex rounded-full border border-red-400 bg-red-50 px-4 py-1.5 text-sm font-semibold text-red-600;
+}
+
+.status-renewal {
+  @apply inline-flex rounded-full border border-yellow-500 bg-yellow-50 px-4 py-1.5 text-sm font-semibold text-yellow-700;
+}
+
+.status-deactivated {
+  @apply inline-flex rounded-full border border-slate-400 bg-slate-100 px-4 py-1.5 text-sm font-semibold text-slate-600;
+}
+
+.section-title {
+  @apply text-2xl font-extrabold text-slate-900;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.stat-panel-blue {
+  background: linear-gradient(180deg, #f1f6ff 0%, #eef4ff 100%);
+  border: 1px solid #cfe0ff;
+}
+
+.stat-panel-green {
+  background: linear-gradient(180deg, #effcf3 0%, #eefaf2 100%);
+  border: 1px solid #c8efd2;
+}
+
+.stat-panel-yellow {
+  background: linear-gradient(180deg, #fff9e8 0%, #fff8df 100%);
+  border: 1px solid #efe0a4;
+}
+
+.stat-panel-red {
+  background: linear-gradient(180deg, #fff2f2 0%, #fff0f0 100%);
+  border: 1px solid #f3c9c9;
+}
+
+.stat-panel-slate {
+  background: linear-gradient(180deg, #f8fafc 0%, #f4f6f9 100%);
+  border: 1px solid #dde4ec;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #d8e2e1;
+}
+
+.chart-grid {
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.16) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
