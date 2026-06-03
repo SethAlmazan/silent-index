@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Internal Codename
 
-## Getting Started
+Silent Index
 
-First, run the development server:
+## Project Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Chainventory is a web-based DENR - Eastern Samar Chainsaw Management System designed to manage chainsaw registration, permit records, owner information, inspection images, and reports in a centralized platform.
+The system allows authenticated users to register chainsaw information, store owner and permit details, upload required images, view and manage records, monitor registration status. Chainventory helps improve the organization, accessibility, and monitoring of chainsaw-related records.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Internal Release Code
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Internal Release Code | Date Released |
+| --------------------- | ------------- |
+| SI.010.002            | 2026-06-03    |
+| SI.010.001            | 2026-06-02    |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## SI.010.002 Release Notes
 
-## Learn More
+### Bug Fix and Responsiveness Release
 
-To learn more about Next.js, take a look at the following resources:
+This release contains bug fixes, layout adjustments, and responsiveness improvements after the initial completed release of Chainventory.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Major Changes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* Fixed mobile responsiveness issues
+* Improved responsive layout
+* Fixed chainsaw records table responsiveness
+* Improved registration form layout on mobile
+* Added labels for registration date and expiry date
+* Improved spacing in registration details
+* Updated README release documentation
 
-## Deploy on Vercel
+### Known Issues
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* No known issues as of this release.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Available in Next Builds/Releases
+
+* Maintenance updates and minor improvements, if needed.
+
+## SI.010.001 Release Notes
+
+### Initial Completed Release
+
+This release contains the completed first version of Chainventory, including the main modules required for the system.
+
+### Major Changes
+
+* Initialized the Next.js project
+* Added application layout and global styles
+* Added Chainventory logo assets
+* Added Chainventory shell and navigation
+* Added shared Chainventory UI components
+* Added dashboard page
+* Added Supabase client and server helpers
+* Added authentication components
+* Added login page and authentication actions
+* Added login and register routes
+* Added password input component
+* Added password reset script
+* Added chainsaw registration pages
+* Added chainsaw registration form
+* Added chainsaw records page and client
+* Added reports page and components
+* Added reports pie graph and clean report actions
+* Updated project dependencies and configuration
+* Removed unused settings component
+* Deployed the application through Vercel
+
+### Completed Features
+
+* User login
+* User registration
+* Protected dashboard access
+* Chainsaw registration
+* Chainsaw records listing
+* Record details viewing
+* Record editing
+* Record deletion
+* Proof of ownership image upload
+* Inspection images upload
+* Reports and analytics
+* Supabase database integration
+* Vercel deployment
+* Responsive interface for desktop and mobile screens
+
+### Known Issues
+
+* Mobile responsiveness required further adjustment after testing.
+
+### Available in Next Builds/Releases
+
+* Bug fixes and responsiveness improvements.
+
+## Important Links
+
+* GitHub Repository: github.com/SethAlmazan/silent-index
+* Deployed App: https://silent-index.vercel.app/
+
+## Team Members
+
+* Kenneth Kim Pantoja
+* Seth Almazan
+
+## Technology Stack
+
+* Next.js
+* TypeScript
+* Tailwind CSS
+* Supabase
+* Vercel
+
+## Development Status
+
+The current version of Chainventory is functional, deployed, and ready for presentation and evaluation. The latest release focuses on bug fixes and responsive layout improvements.
