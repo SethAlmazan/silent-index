@@ -10,7 +10,7 @@ import { Eye, Filter, Pencil, Search, Trash2 } from "lucide-react";
 
 type RecordData = {
   id: string;
-  [key: string]: string | number | boolean | null | undefined;
+  [key: string]: string | number | boolean | string[] | null | undefined;
 };
 
 const TABLE_NAME = "permits";
@@ -24,11 +24,9 @@ export default function ChainsawRecordsClient() {
   const [statusFilter, setStatusFilter] = useState("all");
 
   const [viewRecord, setViewRecord] = useState<RecordData | null>(null);
-
   const [editingRecord, setEditingRecord] = useState<RecordData | null>(null);
 
   const [saving, setSaving] = useState(false);
-
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   async function fetchRecords() {
@@ -43,7 +41,7 @@ export default function ChainsawRecordsClient() {
     }
 
     const { data, error } = await supabase
-      .from("permits")
+      .from(TABLE_NAME)
       .select("*")
       .order("created_at", { ascending: false });
 
@@ -63,7 +61,6 @@ export default function ChainsawRecordsClient() {
 
   async function deleteRecord(id: string) {
     const confirmDelete = confirm("Delete this record?");
-
     if (!confirmDelete) return;
 
     setDeletingId(id);
@@ -77,7 +74,6 @@ export default function ChainsawRecordsClient() {
     }
 
     setRecords((prev) => prev.filter((record) => record.id !== id));
-
     setDeletingId(null);
   }
 
@@ -92,17 +88,11 @@ export default function ChainsawRecordsClient() {
     void updated_at;
     void status;
 
-    console.log("Editing record ID:", id);
-    console.log("Data to update:", cleaned);
-
     const { data, error } = await supabase
       .from(TABLE_NAME)
       .update(cleaned)
       .eq("id", id)
       .select();
-
-    console.log("Update result:", data);
-    console.log("Update error:", error);
 
     if (error) {
       alert(error.message);
@@ -131,13 +121,17 @@ export default function ChainsawRecordsClient() {
   }
 
   function getFullName(record: RecordData) {
+    const savedOwnerName = String(record.owner_name || "").trim();
+
+    if (savedOwnerName) {
+      return savedOwnerName;
+    }
+
     const first = String(record.first_name || "");
-
     const middle = String(record.middle_name || "");
-
     const last = String(record.last_name || "");
 
-    return `${first} ${middle} ${last}`.replace(/\s+/g, " ").trim();
+    return `${first} ${middle} ${last}`.replace(/\s+/g, " ").trim() || "N/A";
   }
 
   function getStatus(record: RecordData) {
@@ -146,7 +140,6 @@ export default function ChainsawRecordsClient() {
     if (!expiry) return "active";
 
     const expiryDate = new Date(String(expiry));
-
     const today = new Date();
 
     today.setHours(0, 0, 0, 0);
@@ -174,11 +167,8 @@ export default function ChainsawRecordsClient() {
   const filteredRecords = useMemo(() => {
     return records.filter((record) => {
       const status = getStatus(record);
-
       const text = Object.values(record).join(" ").toLowerCase();
-
       const matchesSearch = text.includes(search.toLowerCase());
-
       const matchesStatus = statusFilter === "all" || status === statusFilter;
 
       return matchesSearch && matchesStatus;
@@ -217,28 +207,30 @@ export default function ChainsawRecordsClient() {
   }
 
   return (
-    <div className="space-y-6">
-      <section className="rounded-[28px] bg-linear-to-r from-[#0f7c82] to-[#9cc8b8] p-8 text-white shadow-lg">
-        <div className="flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-5xl font-black">Chainsaw Records</h1>
+    <div className="space-y-5 sm:space-y-6">
+      <section className="rounded-[28px] bg-linear-to-r from-[#0f7c82] to-[#9cc8b8] p-6 text-white shadow-lg sm:p-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <h1 className="text-4xl font-black leading-tight sm:text-5xl">
+                Chainsaw Records
+              </h1>
 
-              <span className="rounded-full border border-white/60 px-4 py-1 text-sm font-semibold">
+              <span className="w-fit rounded-full border border-white/60 px-4 py-1 text-sm font-semibold">
                 {filteredRecords.length} Records
               </span>
             </div>
 
-            <p className="mt-3 text-lg text-white/90">
+            <p className="mt-3 text-base text-white/90 sm:text-lg">
               Complete database of registered chainsaws in Eastern Samar
             </p>
           </div>
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-5 shadow">
-        <div className="flex flex-wrap gap-4">
-          <div className="relative min-w-62.5 flex-1">
+      <section className="rounded-2xl bg-white p-4 shadow sm:p-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+          <div className="relative w-full flex-1">
             <Search className="absolute left-4 top-4 h-5 w-5 text-slate-400" />
 
             <input
@@ -253,24 +245,22 @@ export default function ChainsawRecordsClient() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-xl border border-slate-200 px-4 py-3 sm:w-44"
           >
             <option value="all">All Statuses</option>
-
             <option value="active">Active</option>
-
             <option value="expired">Expired</option>
           </select>
 
-          <button className="flex items-center gap-2 rounded-xl bg-[#162942] px-5 py-3 font-semibold text-white">
+          <button className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#162942] px-5 py-3 font-semibold text-white sm:w-auto">
             <Filter className="h-6 w-6" />
           </button>
         </div>
       </section>
 
       <section className="overflow-hidden rounded-2xl bg-white shadow">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-550 border-collapse text-sm">
+        <div className="w-full overflow-x-auto">
+          <table className="min-w-[2300px] border-collapse text-sm">
             <thead className="bg-slate-50 text-xs uppercase text-[#162942]">
               <tr>
                 {columns.map((column) => (
@@ -278,19 +268,19 @@ export default function ChainsawRecordsClient() {
                     key={column}
                     className={
                       column === "owner_name"
-                        ? "sticky left-0 z-20 min-w-55 whitespace-nowrap border-b bg-slate-50 px-5 py-4 text-left shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
-                        : "whitespace-nowrap border-b px-5 py-4 text-left"
+                        ? "sticky left-0 z-30 w-[230px] min-w-[230px] whitespace-nowrap border-b bg-slate-50 px-5 py-4 text-left shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
+                        : "min-w-[150px] whitespace-nowrap border-b px-5 py-4 text-left"
                     }
                   >
                     {column.replaceAll("_", " ")}
                   </th>
                 ))}
 
-                <th className="sticky right-35 z-20 border-b bg-slate-50 px-5 py-4 text-left">
+                <th className="min-w-[130px] whitespace-nowrap border-b bg-slate-50 px-5 py-4 text-left md:sticky md:right-[120px] md:z-30 md:w-[135px] md:min-w-[135px] md:px-4 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
                   Status
                 </th>
 
-                <th className="sticky right-0 z-20 border-b bg-slate-50 px-5 py-4 text-left">
+                <th className="min-w-[120px] whitespace-nowrap border-b bg-slate-50 px-4 py-4 text-center md:sticky md:right-0 md:z-40 md:w-[120px] md:min-w-[120px] md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
                   Actions
                 </th>
               </tr>
@@ -326,19 +316,25 @@ export default function ChainsawRecordsClient() {
                           key={column}
                           className={
                             column === "owner_name"
-                              ? "sticky left-0 z-10 min-w-55 border-b bg-white px-5 py-4 font-bold shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
-                              : "border-b px-5 py-4"
+                              ? "sticky left-0 z-20 w-[230px] min-w-[230px] border-b bg-white px-5 py-4 font-bold shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
+                              : "min-w-[150px] border-b px-5 py-4"
                           }
                         >
-                          <div className="min-w-35 wrap-break-word">
+                          <div
+                            className={
+                              column === "owner_name"
+                                ? "max-w-[190px] truncate"
+                                : "max-w-[190px] break-words"
+                            }
+                          >
                             {renderValue(record, column)}
                           </div>
                         </td>
                       ))}
 
-                      <td className="sticky right-35 z-10 border-b bg-white px-5 py-4">
+                      <td className="min-w-[130px] border-b bg-white px-5 py-4 md:sticky md:right-[120px] md:z-20 md:w-[135px] md:min-w-[135px] md:px-4 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
                         <span
-                          className={`rounded-full border px-3 py-1 text-xs font-bold ${
+                          className={`inline-flex min-w-[76px] items-center justify-center whitespace-nowrap rounded-full border px-3 py-1 text-xs font-bold ${
                             status === "expired"
                               ? "border-red-500 bg-red-100 text-red-600"
                               : "border-green-500 bg-green-100 text-green-600"
@@ -348,11 +344,12 @@ export default function ChainsawRecordsClient() {
                         </span>
                       </td>
 
-                      <td className="sticky right-0 z-10 border-b bg-white px-5 py-4">
-                        <div className="flex gap-2">
+                      <td className="min-w-[120px] border-b bg-white px-4 py-4 md:sticky md:right-0 md:z-30 md:w-[120px] md:min-w-[120px] md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
+                        <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => setViewRecord(record)}
                             className="rounded-lg bg-blue-50 p-2 text-blue-600"
+                            title="View"
                           >
                             <Eye className="h-4 w-4" />
                           </button>
@@ -360,6 +357,7 @@ export default function ChainsawRecordsClient() {
                           <button
                             onClick={() => setEditingRecord(record)}
                             className="rounded-lg bg-green-50 p-2 text-green-600"
+                            title="Edit"
                           >
                             <Pencil className="h-4 w-4" />
                           </button>
@@ -367,7 +365,8 @@ export default function ChainsawRecordsClient() {
                           <button
                             disabled={deletingId === record.id}
                             onClick={() => deleteRecord(record.id)}
-                            className="rounded-lg bg-red-50 p-2 text-red-600"
+                            className="rounded-lg bg-red-50 p-2 text-red-600 disabled:opacity-50"
+                            title="Delete"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -383,20 +382,20 @@ export default function ChainsawRecordsClient() {
       </section>
 
       {viewRecord && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6">
-          <div className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-3xl bg-white p-8">
-            <div className="mb-6 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 sm:p-6">
+          <div className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-3xl bg-white p-5 sm:p-8">
+            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-3xl font-black">Record Details</h2>
 
               <button
                 onClick={() => setViewRecord(null)}
-                className="rounded-xl bg-red-500 px-4 py-2 font-bold text-white"
+                className="w-full rounded-xl bg-red-500 px-4 py-2 font-bold text-white sm:w-auto"
               >
                 Close
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {[
                 "owner_name",
                 "municipality",
@@ -434,13 +433,14 @@ export default function ChainsawRecordsClient() {
                         : key.replaceAll("_", " ")}
                     </p>
 
-                    <p className="mt-2 wrap-break-words text-base font-semibold text-slate-800">
+                    <p className="mt-2 break-words text-base font-semibold text-slate-800">
                       {String(value ?? "N/A")}
                     </p>
                   </div>
                 );
               })}
             </div>
+
             <div className="mt-8">
               <h3 className="mb-4 text-2xl font-black text-slate-900">
                 Proof of Ownership
@@ -474,6 +474,7 @@ export default function ChainsawRecordsClient() {
                 </div>
               )}
             </div>
+
             <div className="mt-8">
               <h3 className="mb-4 text-2xl font-black text-slate-900">
                 Inspection Images
@@ -512,20 +513,20 @@ export default function ChainsawRecordsClient() {
       )}
 
       {editingRecord && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6">
-          <div className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-3xl bg-white p-8">
-            <div className="mb-6 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 sm:p-6">
+          <div className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-3xl bg-white p-5 sm:p-8">
+            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-3xl font-black">Edit Record</h2>
 
               <button
                 onClick={() => setEditingRecord(null)}
-                className="rounded-xl bg-red-500 px-4 py-2 font-bold text-white"
+                className="w-full rounded-xl bg-red-500 px-4 py-2 font-bold text-white sm:w-auto"
               >
                 Close
               </button>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {[
                 "owner_name",
                 "municipality",
@@ -547,9 +548,7 @@ export default function ChainsawRecordsClient() {
                 const value =
                   key === "owner_name"
                     ? getFullName(editingRecord)
-                    : key === "status"
-                      ? getStatus(editingRecord)
-                      : getRecordValue(editingRecord, key);
+                    : getRecordValue(editingRecord, key);
 
                 return (
                   <div key={key}>
@@ -578,7 +577,7 @@ export default function ChainsawRecordsClient() {
             <button
               disabled={saving}
               onClick={saveEdit}
-              className="mt-6 rounded-2xl bg-teal-600 px-6 py-4 font-bold text-white"
+              className="mt-6 w-full rounded-2xl bg-teal-600 px-6 py-4 font-bold text-white sm:w-auto"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>
