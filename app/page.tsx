@@ -60,8 +60,8 @@ export default async function DashboardPage() {
 
   return (
     <AppShell active="dashboard">
-      <div className="space-y-5 p-6">
-        <div className="grid grid-cols-5 gap-4">
+      <div className="space-y-5 px-0 py-4 sm:p-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
           <Stat
             title="TOTAL REGISTERED"
             value={total}
@@ -94,19 +94,21 @@ export default async function DashboardPage() {
           />
         </div>
 
-        <div className="grid grid-cols-[2fr_1fr] gap-5">
+        <div className="grid grid-cols-1 gap-5 xl:grid-cols-[2fr_1fr]">
           <div className="overflow-hidden rounded-2xl border border-orange-300 bg-white shadow">
-            <div className="bg-orange-50 p-5">
-              <div className="flex items-center gap-3">
-                <h2 className="text-2xl font-black">Registered Permits</h2>
+            <div className="bg-orange-50 p-4 sm:p-5">
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="text-2xl font-black sm:text-3xl">
+                  Registered Permits
+                </h2>
 
                 <span className="rounded-full bg-red-500 px-3 py-1 text-xs font-bold text-white">
                   {permits.length}
                 </span>
               </div>
 
-              <div className="mt-3 flex gap-2">
-                <span className="rounded-full bg-red-500 px-3 py-2 text-xs font-bold text-white">
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+                <span className="w-fit rounded-full bg-red-500 px-3 py-2 text-xs font-bold text-white">
                   ⚠ Compliance Risk
                 </span>
 
@@ -121,72 +123,78 @@ export default async function DashboardPage() {
                 No permits found for this account.
               </div>
             ) : (
-              permits.map((permit) => {
-                const realStatus = getRealStatus(permit);
+              <div className="divide-y divide-slate-200">
+                {permits.map((permit) => {
+                  const realStatus = getRealStatus(permit);
 
-                return (
-                  <div
-                    key={permit.id}
-                    className="grid grid-cols-[70px_1.2fr_1fr_1fr_1.2fr] items-center border-t border-slate-200 p-4"
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 text-sm font-bold text-white">
-                      {getInitials(permit.owner_name)}
-                    </div>
+                  return (
+                    <div
+                      key={permit.id}
+                      className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-[70px_1fr] lg:grid-cols-[70px_1.2fr_1fr_1fr_1.2fr] lg:items-center"
+                    >
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-600 text-sm font-bold text-white">
+                        {getInitials(permit.owner_name)}
+                      </div>
 
-                    <div>
-                      <p className="font-bold">{permit.owner_name}</p>
-                      <p
-                        className={`text-xs font-semibold ${
-                          realStatus === "expired"
-                            ? "text-red-500"
-                            : "text-green-600"
-                        }`}
-                      >
-                        {realStatus}
+                      <div className="min-w-0">
+                        <p className="wrap-break-words font-bold">
+                          {permit.owner_name}
+                        </p>
+                        <p
+                          className={`text-xs font-semibold ${
+                            realStatus === "expired"
+                              ? "text-red-500"
+                              : "text-green-600"
+                          }`}
+                        >
+                          {realStatus}
+                        </p>
+                      </div>
+
+                      <div className="min-w-0">
+                        <span className="inline-block max-w-full wrap-break-words rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold">
+                          {permit.serial_number}
+                        </span>
+
+                        <p className="mt-2 wrap-break-words text-xs text-slate-500">
+                          {permit.barangay}
+                        </p>
+                      </div>
+
+                      <p className="wrap-break-words font-bold">
+                        {permit.municipality}
                       </p>
+
+                      <div>
+                        <span
+                          className={`inline-block rounded-full border px-4 py-2 text-xs font-bold ${getStatusClass(
+                            realStatus
+                          )}`}
+                        >
+                          {realStatus}
+                        </span>
+
+                        <p className="mt-2 text-xs text-slate-500">
+                          Expiry: {formatDate(permit.expiry_date)}
+                        </p>
+                      </div>
                     </div>
-
-                    <div>
-                      <span className="rounded-lg bg-slate-100 px-3 py-2 text-xs font-bold">
-                        {permit.serial_number}
-                      </span>
-
-                      <p className="mt-2 text-xs text-slate-500">
-                        {permit.barangay}
-                      </p>
-                    </div>
-
-                    <p className="font-bold">{permit.municipality}</p>
-
-                    <div>
-                      <span
-                        className={`rounded-full border px-4 py-2 text-xs font-bold ${getStatusClass(
-                          realStatus
-                        )}`}
-                      >
-                        {realStatus}
-                      </span>
-
-                      <p className="mt-2 text-xs text-slate-500">
-                        Expiry: {formatDate(permit.expiry_date)}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })
+                  );
+                })}
+              </div>
             )}
           </div>
 
           <div className="space-y-5">
-            <div className="rounded-2xl border border-cyan-300 bg-white p-5 shadow">
-              <div className="flex justify-between">
+            <div className="rounded-2xl border border-cyan-300 bg-white p-4 shadow sm:p-5">
+              <div className="flex justify-between gap-4">
                 <h2 className="text-2xl font-black leading-6">
                   Monthly
                   <br />
                   Registrations
                 </h2>
 
-                <div className="text-right">
+                <div className="shrink-0 text-right">
                   <p className="text-3xl font-black text-teal-600">{total}</p>
                   <p className="text-xs">Total</p>
                 </div>
@@ -203,7 +211,7 @@ export default async function DashboardPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-purple-300 bg-white p-5 shadow">
+            <div className="rounded-2xl border border-purple-300 bg-white p-4 shadow sm:p-5">
               <h2 className="text-2xl font-black">Recent Registrations</h2>
 
               <div className="mt-4 space-y-3">
@@ -220,31 +228,33 @@ export default async function DashboardPage() {
                         key={permit.id}
                         className="rounded-2xl border border-slate-200 p-4 shadow-sm"
                       >
-                        <div className="flex justify-between">
-                          <div className="flex gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-600 text-sm font-bold text-white">
+                        <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
+                          <div className="flex min-w-0 gap-3">
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-600 text-sm font-bold text-white">
                               {getInitials(permit.owner_name)}
                             </div>
 
-                            <div>
-                              <p className="font-bold">{permit.owner_name}</p>
+                            <div className="min-w-0">
+                              <p className="wrap-break-words font-bold">
+                                {permit.owner_name}
+                              </p>
 
-                              <p className="mt-1 text-xs text-slate-500">
+                              <p className="mt-1 wrap-break-words text-xs text-slate-500">
                                 {permit.brand} {permit.model}
                               </p>
 
-                              <p className="text-xs text-slate-500">
+                              <p className="wrap-break-words text-xs text-slate-500">
                                 SN: {permit.serial_number}
                               </p>
 
-                              <p className="text-xs text-slate-500">
+                              <p className="wrap-break-words text-xs text-slate-500">
                                 📍 {permit.barangay}, {permit.municipality}
                               </p>
                             </div>
                           </div>
 
                           <span
-                            className={`h-fit rounded-full border px-3 py-1 text-xs font-bold ${getStatusClass(
+                            className={`h-fit w-fit rounded-full border px-3 py-1 text-xs font-bold ${getStatusClass(
                               realStatus
                             )}`}
                           >
@@ -276,15 +286,15 @@ function Stat({
   box: string;
 }) {
   return (
-    <div className={`relative rounded-2xl border p-5 shadow ${box}`}>
-      <p className="text-xs font-semibold tracking-wide text-slate-700">
+    <div className={`relative min-w-0 rounded-2xl border p-4 shadow sm:p-5 ${box}`}>
+      <p className="max-w-22.5 wrap-break-words text-[10px] font-semibold tracking-wide text-slate-700 sm:max-w-none sm:text-xs">
         {title}
       </p>
 
-      <p className="mt-3 text-4xl font-black">{value}</p>
+      <p className="mt-3 text-3xl font-black sm:text-4xl">{value}</p>
 
       <div
-        className={`absolute right-5 top-5 h-10 w-10 rounded-xl shadow ${color}`}
+        className={`absolute right-4 top-4 h-8 w-8 rounded-xl shadow sm:right-5 sm:top-5 sm:h-10 sm:w-10 ${color}`}
       />
     </div>
   );
