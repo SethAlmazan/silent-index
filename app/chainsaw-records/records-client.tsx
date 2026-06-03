@@ -260,7 +260,7 @@ export default function ChainsawRecordsClient() {
 
       <section className="overflow-hidden rounded-2xl bg-white shadow">
         <div className="w-full overflow-x-auto">
-          <table className="min-w-[2300px] border-collapse text-sm">
+          <table className="min-w-575 border-collapse text-sm">
             <thead className="bg-slate-50 text-xs uppercase text-[#162942]">
               <tr>
                 {columns.map((column) => (
@@ -268,19 +268,19 @@ export default function ChainsawRecordsClient() {
                     key={column}
                     className={
                       column === "owner_name"
-                        ? "sticky left-0 z-30 w-[230px] min-w-[230px] whitespace-nowrap border-b bg-slate-50 px-5 py-4 text-left shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
-                        : "min-w-[150px] whitespace-nowrap border-b px-5 py-4 text-left"
+                        ? "sticky left-0 z-30 w-57.5 min-w-57.5 whitespace-nowrap border-b bg-slate-50 px-5 py-4 text-left shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
+                        : "min-w-37.5 whitespace-nowrap border-b px-5 py-4 text-left"
                     }
                   >
                     {column.replaceAll("_", " ")}
                   </th>
                 ))}
 
-                <th className="min-w-[130px] whitespace-nowrap border-b bg-slate-50 px-5 py-4 text-left md:sticky md:right-[120px] md:z-30 md:w-[135px] md:min-w-[135px] md:px-4 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
+                <th className="min-w-32.5 whitespace-nowrap border-b bg-slate-50 px-5 py-4 text-left md:sticky md:right-30 md:z-30 md:w-33.75 md:min-w-33.75 md:px-4 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
                   Status
                 </th>
 
-                <th className="min-w-[120px] whitespace-nowrap border-b bg-slate-50 px-4 py-4 text-center md:sticky md:right-0 md:z-40 md:w-[120px] md:min-w-[120px] md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
+                <th className="min-w-30 whitespace-nowrap border-b bg-slate-50 px-4 py-4 text-center md:sticky md:right-0 md:z-40 md:w-30 md:min-w-30 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
                   Actions
                 </th>
               </tr>
@@ -316,15 +316,15 @@ export default function ChainsawRecordsClient() {
                           key={column}
                           className={
                             column === "owner_name"
-                              ? "sticky left-0 z-20 w-[230px] min-w-[230px] border-b bg-white px-5 py-4 font-bold shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
-                              : "min-w-[150px] border-b px-5 py-4"
+                              ? "sticky left-0 z-20 w-57.5 min-w-57.5 border-b bg-white px-5 py-4 font-bold shadow-[4px_0_8px_rgba(0,0,0,0.05)]"
+                              : "min-w-37.5 border-b px-5 py-4"
                           }
                         >
                           <div
                             className={
                               column === "owner_name"
-                                ? "max-w-[190px] truncate"
-                                : "max-w-[190px] break-words"
+                                ? "max-w-57.5 truncate"
+                                : "max-w-57.5 wrap-break-words"
                             }
                           >
                             {renderValue(record, column)}
@@ -332,9 +332,9 @@ export default function ChainsawRecordsClient() {
                         </td>
                       ))}
 
-                      <td className="min-w-[130px] border-b bg-white px-5 py-4 md:sticky md:right-[120px] md:z-20 md:w-[135px] md:min-w-[135px] md:px-4 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
+                      <td className="min-w-32.5 border-b bg-white px-5 py-4 md:sticky md:right-30 md:z-20 md:w-33.75 md:min-w-33.75 md:px-4 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
                         <span
-                          className={`inline-flex min-w-[76px] items-center justify-center whitespace-nowrap rounded-full border px-3 py-1 text-xs font-bold ${
+                          className={`inline-flex min-w-19 items-center justify-center whitespace-nowrap rounded-full border px-3 py-1 text-xs font-bold ${
                             status === "expired"
                               ? "border-red-500 bg-red-100 text-red-600"
                               : "border-green-500 bg-green-100 text-green-600"
@@ -344,7 +344,7 @@ export default function ChainsawRecordsClient() {
                         </span>
                       </td>
 
-                      <td className="min-w-[120px] border-b bg-white px-4 py-4 md:sticky md:right-0 md:z-30 md:w-[120px] md:min-w-[120px] md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
+                      <td className="min-w-30 border-b bg-white px-4 py-4 md:sticky md:right-0 md:z-30 md:w-30 md:min-w-30 md:shadow-[-4px_0_8px_rgba(0,0,0,0.05)]">
                         <div className="flex items-center justify-center gap-1.5">
                           <button
                             onClick={() => setViewRecord(record)}
@@ -433,7 +433,7 @@ export default function ChainsawRecordsClient() {
                         : key.replaceAll("_", " ")}
                     </p>
 
-                    <p className="mt-2 break-words text-base font-semibold text-slate-800">
+                    <p className="mt-2 wrap-break-words text-base font-semibold text-slate-800">
                       {String(value ?? "N/A")}
                     </p>
                   </div>
