@@ -184,7 +184,9 @@ export default function RegistrationForm() {
     });
   }
 
-  function handleInspectionImagesChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInspectionImagesChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) {
     const files = Array.from(e.target.files || []);
 
     const imageUrls = files.map((file) => ({
@@ -210,165 +212,185 @@ export default function RegistrationForm() {
     });
   }
 
+  const inputClass =
+    "w-full rounded-lg border border-slate-900/80 px-4 py-3 text-sm outline-none placeholder:text-slate-500 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 sm:text-base";
+
+  const sectionClass = "rounded-xl border border-slate-900 bg-white p-5 sm:p-6";
+
+  const uploadBoxClass =
+    "flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-400 bg-slate-50 p-5 text-center hover:bg-slate-100 sm:min-h-37.5 sm:p-6";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* OWNER INFORMATION */}
-      <div className="rounded-xl border bg-white p-6">
+      <div className={sectionClass}>
         <h2 className="mb-4 text-2xl font-bold">Owner Information</h2>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <input
             name="first_name"
             placeholder="First Name"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
 
           <input
             name="middle_name"
             placeholder="Middle Name"
-            className="rounded-lg border p-3"
+            className={inputClass}
           />
 
           <input
             name="last_name"
             placeholder="Last Name"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
-        </div>
 
-        <input
-          name="complete_address"
-          placeholder="Street / Purok / Sitio"
-          className="mt-4 w-full rounded-lg border p-3"
-          required
-        />
+          <input
+            name="complete_address"
+            placeholder="Street / Purok / Sitio"
+            className={`${inputClass} md:col-span-3`}
+            required
+          />
 
-        <div className="mt-4 grid grid-cols-3 gap-4">
           <input
             name="municipality"
             placeholder="Municipality"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
 
           <input
             name="barangay"
             placeholder="Barangay"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
 
           <input
             name="contact_number"
             placeholder="Contact Number"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
-        </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email Address"
-          className="mt-4 w-full rounded-lg border p-3"
-        />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            className={`${inputClass} md:col-span-3`}
+          />
+        </div>
       </div>
 
       {/* CHAINSAW INFORMATION */}
-      <div className="rounded-xl border bg-white p-6">
+      <div className={sectionClass}>
         <h2 className="mb-4 text-2xl font-bold">Chainsaw Information</h2>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <input
             name="brand"
             placeholder="Brand"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
 
           <input
             name="model"
             placeholder="Model"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
 
           <input
             name="serial_number"
             placeholder="Serial Number"
-            className="rounded-lg border p-3"
+            className={inputClass}
             required
           />
-        </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-4">
           <input
             name="year_manufactured"
             placeholder="Date of Acquisition"
-            className="rounded-lg border p-3"
+            className={inputClass}
           />
 
           <input
             name="power_rating"
             placeholder="Horsepower"
-            className="rounded-lg border p-3"
+            className={inputClass}
           />
 
           <input
             name="length_of_chainsaw"
             placeholder="Length of Chainsaw"
-            className="rounded-lg border p-3"
+            className={inputClass}
           />
 
           <textarea
             name="description"
             placeholder="Description"
-            rows={1}
-            className="col-span-3 resize-none rounded-lg border p-3"
+            rows={2}
+            className={`${inputClass} resize-none md:col-span-3`}
           />
         </div>
       </div>
 
-      <div className="rounded-xl border bg-white p-6">
+      {/* REGISTRATION DETAILS */}
+      <div className={sectionClass}>
         <h2 className="mb-4 text-2xl font-bold">Registration Details</h2>
 
-        <div className="grid grid-cols-3 gap-4">
-          <input
-            type="date"
-            name="registration_date"
-            className="rounded-lg border p-3"
-            required
-          />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-700">
+              Registration Date
+            </label>
 
-          <input
-            type="date"
-            name="expiry_date"
-            className="rounded-lg border p-3"
-            required
-          />
+            <input
+              type="date"
+              name="registration_date"
+              className={inputClass}
+              required
+            />
+          </div>
 
-          <select
-            name="status_of_issuance"
-            className="rounded-lg border p-3 text-slate-500"
-            required
-          >
-            <option value="">Status of Issuance</option>
-            <option value="New">New</option>
-            <option value="Renewal">Renewal</option>
-          </select>
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-700">
+              Expiry Date
+            </label>
+
+            <input
+              type="date"
+              name="expiry_date"
+              className={inputClass}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-slate-700">
+              Status of Issuance
+            </label>
+
+            <select
+              name="status_of_issuance"
+              className={`${inputClass} text-slate-500`}
+              required
+            >
+              <option value="">Select status</option>
+              <option value="New">New</option>
+              <option value="Renewal">Renewal</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* PROOF OF OWNERSHIP */}
-      <div className="rounded-xl border bg-white p-6">
+      <div className={sectionClass}>
         <h2 className="mb-4 text-2xl font-bold">Proof of Ownership</h2>
 
-        <label
-          htmlFor="proof_ownership_images"
-          className="flex min-h-37.5 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-400 bg-slate-50 p-6 text-center hover:bg-slate-100"
-        >
+        <label htmlFor="proof_ownership_images" className={uploadBoxClass}>
           <span className="text-base font-semibold text-slate-700">
             Drag or choose images from your PC
           </span>
@@ -394,7 +416,7 @@ export default function RegistrationForm() {
               Selected Images: {proofPreviews.length}
             </p>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
               {proofPreviews.map((image, index) => (
                 <div
                   key={image.id}
@@ -425,13 +447,10 @@ export default function RegistrationForm() {
       </div>
 
       {/* INSPECTION IMAGES */}
-      <div className="rounded-xl border bg-white p-6">
+      <div className={sectionClass}>
         <h2 className="mb-4 text-2xl font-bold">Inspection Images</h2>
 
-        <label
-          htmlFor="inspection_images"
-          className="flex min-h-37.5 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-slate-400 bg-slate-50 p-6 text-center hover:bg-slate-100"
-        >
+        <label htmlFor="inspection_images" className={uploadBoxClass}>
           <span className="text-base font-semibold text-slate-700">
             Drag or choose images from your PC
           </span>
@@ -457,7 +476,7 @@ export default function RegistrationForm() {
               Selected Images: {inspectionPreviews.length}
             </p>
 
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
               {inspectionPreviews.map((image, index) => (
                 <div
                   key={image.id}
@@ -490,7 +509,7 @@ export default function RegistrationForm() {
       <button
         type="submit"
         disabled={loading}
-        className="rounded-lg bg-teal-600 px-6 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-lg bg-teal-600 px-6 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {loading ? "Submitting..." : "Submit Registration"}
       </button>
