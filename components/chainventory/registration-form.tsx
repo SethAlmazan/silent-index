@@ -403,7 +403,7 @@ export default function RegistrationForm() {
             id="proof_ownership_images"
             name="proof_ownership_images"
             type="file"
-            accept="image/*"
+            accept="image/png,image/jpeg,image/jpg,image/webp"
             multiple
             onChange={handleProofImagesChange}
             className="hidden"
@@ -463,7 +463,7 @@ export default function RegistrationForm() {
             id="inspection_images"
             name="inspection_images"
             type="file"
-            accept="image/*"
+            accept="image/png,image/jpeg,image/jpg,image/webp"
             multiple
             onChange={handleInspectionImagesChange}
             className="hidden"
