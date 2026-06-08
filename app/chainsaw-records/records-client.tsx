@@ -29,6 +29,8 @@ export default function ChainsawRecordsClient() {
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
+  const [exportingPermit, setExportingPermit] = useState(false);
+
   async function fetchRecords() {
     setLoading(true);
 
@@ -75,6 +77,48 @@ export default function ChainsawRecordsClient() {
 
     setRecords((prev) => prev.filter((record) => record.id !== id));
     setDeletingId(null);
+  }
+
+  async function handleExportPermit() {
+    if (!viewRecord) return;
+
+    try {
+      setExportingPermit(true);
+
+      const response = await fetch("/api/chainsaw-permit/export", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          record: viewRecord,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Export failed");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const ownerName =
+        getFullName(viewRecord) || viewRecord.owner_name || "chainsaw-permit";
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${String(ownerName).replaceAll(" ", "_")}_permit.docx`;
+      document.body.appendChild(link);
+      link.click();
+
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to export permit.");
+    } finally {
+      setExportingPermit(false);
+    }
   }
 
   async function saveEdit() {
@@ -182,13 +226,18 @@ export default function ChainsawRecordsClient() {
     "street",
     "contact_number",
     "email",
+    "registration_no",
     "brand",
     "model",
     "serial_number",
     "length_of_chainsaw",
     "power_rating",
+    "country_origin_source",
+    "purchase_price_selling_price",
     "description",
     "date_manufactured",
+    "purpose",
+    "area_location_used",
     "status_of_issuance",
     "registration_date",
     "expiry_date",
@@ -387,12 +436,24 @@ export default function ChainsawRecordsClient() {
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-3xl font-black">Record Details</h2>
 
-              <button
-                onClick={() => setViewRecord(null)}
-                className="w-full rounded-xl bg-red-500 px-4 py-2 font-bold text-white sm:w-auto"
-              >
-                Close
-              </button>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={handleExportPermit}
+                  disabled={exportingPermit}
+                  className="w-full rounded-xl bg-emerald-600 px-4 py-2 font-bold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                >
+                  {exportingPermit ? "Exporting..." : "Export Permit"}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setViewRecord(null)}
+                  className="w-full rounded-xl bg-red-500 px-4 py-2 font-bold text-white sm:w-auto"
+                >
+                  Close
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -408,8 +469,13 @@ export default function ChainsawRecordsClient() {
                 "serial_number",
                 "length_of_chainsaw",
                 "power_rating",
+                "country_origin_source",
+                "purchase_price_selling_price",
                 "description",
                 "date_manufactured",
+                "registration_no",
+                "purpose",
+                "area_location_used",
                 "status_of_issuance",
                 "registration_date",
                 "expiry_date",
@@ -539,11 +605,17 @@ export default function ChainsawRecordsClient() {
                 "serial_number",
                 "length_of_chainsaw",
                 "power_rating",
+                "country_origin_source",
+                "purchase_price_selling_price",
                 "description",
                 "date_manufactured",
+                "registration_no",
+                "purpose",
+                "area_location_used",
                 "status_of_issuance",
                 "registration_date",
                 "expiry_date",
+                "status",
               ].map((key) => {
                 const value =
                   key === "owner_name"
