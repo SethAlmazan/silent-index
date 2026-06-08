@@ -108,9 +108,7 @@ export default async function DashboardPage() {
               </div>
 
               <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
-                <span className="w-fit rounded-full bg-red-500 px-3 py-2 text-xs font-bold text-white">
-                  ⚠ Compliance Risk
-                </span>
+                
 
                 <span className="text-xs text-slate-600">
                   Real-time permit monitoring

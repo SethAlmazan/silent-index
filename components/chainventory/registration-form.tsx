@@ -124,7 +124,14 @@ export default function RegistrationForm() {
       power_rating: formData.get("power_rating") || null,
       description: formData.get("description") || null,
       length_of_chainsaw: formData.get("length_of_chainsaw") || null,
+      country_origin_source: formData.get("country_origin_source"),
+      purchase_price_selling_price: formData.get(
+        "purchase_price_selling_price",
+      ),
 
+      registration_no: formData.get("registration_no"),
+      purpose: formData.get("purpose"),
+      area_location_used: formData.get("area_location_used"),
       registration_date: formData.get("registration_date"),
       expiry_date: formData.get("expiry_date"),
       status_of_issuance: formData.get("status_of_issuance") || null,
@@ -328,11 +335,23 @@ export default function RegistrationForm() {
             className={inputClass}
           />
 
+          <input
+            name="country_origin_source"
+            placeholder="Country of Origin/Source"
+            className={inputClass}
+          />
+
+          <input
+            name="purchase_price_selling_price"
+            placeholder="Purchase Price/Selling Price"
+            className={inputClass}
+          />
+
           <textarea
             name="description"
             placeholder="Description"
-            rows={2}
-            className={`${inputClass} resize-none md:col-span-3`}
+            rows={1}
+            className={`${inputClass} resize-none`}
           />
         </div>
       </div>
@@ -342,6 +361,20 @@ export default function RegistrationForm() {
         <h2 className="mb-4 text-2xl font-bold">Registration Details</h2>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <input
+            name="registration_no"
+            placeholder="Registration No."
+            className={inputClass}
+          />
+
+          <input name="purpose" placeholder="Purpose" className={inputClass} />
+
+          <input
+            name="area_location_used"
+            placeholder="Area/Location the Chainsaw Will Be Used"
+            className={inputClass}
+          />
+
           <div>
             <label className="mb-2 block text-sm font-semibold text-slate-700">
               Registration Date
