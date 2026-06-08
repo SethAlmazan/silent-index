@@ -5,14 +5,68 @@ Silent Index
 ## Project Description
 
 Chainventory is a web-based DENR - Eastern Samar Chainsaw Management System designed to manage chainsaw registration, permit records, owner information, inspection images, and reports in a centralized platform.
-The system allows authenticated users to register chainsaw information, store owner and permit details, upload required images, view and manage records, monitor registration status. Chainventory helps improve the organization, accessibility, and monitoring of chainsaw-related records.
+
+The system allows authenticated users to register chainsaw information, store owner and permit details, upload required images, view and manage records, monitor registration status, export chainsaw permit documents, and access reports. Chainventory helps improve the organization, accessibility, and monitoring of chainsaw-related records.
 
 ## Internal Release Code
 
 | Internal Release Code | Date Released |
 | --------------------- | ------------- |
+| SI.010.003            | 2026-06-08    |
 | SI.010.002            | 2026-06-03    |
 | SI.010.001            | 2026-06-02    |
+
+## SI.010.003 Release Notes
+
+### Chainsaw Permit Export and Registration Details Release
+
+This release adds chainsaw permit export support and additional registration details fields based on the latest feature/export branch updates.
+
+### Major Changes
+
+* Added chainsaw permit export feature
+* Added Microsoft Word document export for individual chainsaw records
+* Added DENR logo support for exported permit documents
+* Added formatted permit layout based on the chainsaw permit format
+* Added automatic owner information in exported permit documents
+* Added automatic chainsaw information in exported permit documents
+* Added automatic registration date and expiry date in exported permit documents
+* Added inspection images to exported permit documents
+* Updated export to use inspection images only
+* Improved permit document spacing and formatting
+* Added new chainsaw information fields:
+
+  * Country of Origin/Source
+  * Purchase Price/Selling Price
+* Added new registration details fields:
+
+  * Registration No.
+  * Purpose
+  * Area/Location the chainsaw will be used
+* Updated chainsaw records to display the new fields
+* Updated record details to show the new fields
+* Updated edit record form to allow updating the new fields
+* Added model display cleanup to avoid repeating brand name beside the model
+* Updated package dependencies for document export support
+
+### Completed Features Added in This Release
+
+* Export individual chainsaw permit as a Microsoft Word file
+* Auto-fill permit document using saved record data
+* Include inspection images in exported permit
+* Save additional permit-related registration fields
+* View additional permit-related fields in record details
+* Edit additional permit-related fields in existing records
+
+### Known Issues
+
+* No known issues as of this release.
+
+### Available in Next Builds/Releases
+
+* Further permit layout refinements, if needed.
+* Optional admin approval workflow for newly registered users.
+* Additional export customization, if needed.
 
 ## SI.010.002 Release Notes
 
@@ -97,19 +151,7 @@ This release contains the completed first version of Chainventory, including the
 * GitHub Repository: github.com/SethAlmazan/silent-index
 * Deployed App: https://silent-index.vercel.app/
 
-## Team Members
-
-* Kenneth Kim Pantoja
-* Seth Almazan
-
-## Technology Stack
-
-* Next.js
-* TypeScript
-* Tailwind CSS
-* Supabase
-* Vercel
 
 ## Development Status
 
-The current version of Chainventory is functional, deployed, and ready for presentation and evaluation. The latest release focuses on bug fixes and responsive layout improvements.
+The current version of Chainventory is functional, deployed, and ready for presentation and evaluation. The latest release focuses on chainsaw permit export, additional registration details fields, updated record details, edit record improvements, and permit document formatting.
