@@ -150,8 +150,3 @@ This release contains the completed first version of Chainventory, including the
 
 * GitHub Repository: github.com/SethAlmazan/silent-index
 * Deployed App: https://silent-index.vercel.app/
-
-
-## Development Status
-
-The current version of Chainventory is functional, deployed, and ready for presentation and evaluation. The latest release focuses on chainsaw permit export, additional registration details fields, updated record details, edit record improvements, and permit document formatting.
